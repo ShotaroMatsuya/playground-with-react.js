@@ -1,5 +1,6 @@
 import React, { PureComponent }  from 'react';
 import Person from './Person/Person';
+
 //すべてのpropsの変化を監視したいときはshouldComponentUpdateの代わりにPureComponentを使えば良い
 
 class Persons extends PureComponent {
@@ -50,6 +51,7 @@ class Persons extends PureComponent {
             age={person.age}
             key={person.id}
             changed={event => this.props.changed(event, person.id)}
+            
           />
         );
       });
