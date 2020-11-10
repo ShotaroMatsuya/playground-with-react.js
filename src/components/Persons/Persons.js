@@ -1,7 +1,8 @@
-import React, { Component }  from 'react';
+import React, { PureComponent }  from 'react';
 import Person from './Person/Person';
+//すべてのpropsの変化を監視したいときはshouldComponentUpdateの代わりにPureComponentを使えば良い
 
-class Persons extends Component {
+class Persons extends PureComponent {
     // static getDerivedStateFromProps(props, state) {
     //   console.log('[Persons.js] getDerivedStateFromProps');
     //   return state;
@@ -11,15 +12,16 @@ class Persons extends Component {
     //   console.log('[Persons.js] componentWillReceiveProps', props);
     // }
   
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('[Persons.js] shouldComponentUpdate');
-        if (nextProps.persons !== this.props.persons) {
-          return true;//親から渡されたpropsと現在のpropsに違いがある場合のみrendering実行
-        } else {
-          return false;//propsに変化がなければrenderingは行われない
-        }
-        // return true;
-      }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Persons.js] shouldComponentUpdate');
+    //     if (nextProps.persons !== this.props.persons) {
+    //       return true;//親から渡されたpropsと現在のpropsに違いがある場合のみrendering実行
+    //     } else {
+    //       return false;//propsに変化がなければrenderingは行われない
+    //     }
+    //     // return true;
+    //   }
   
     getSnapshotBeforeUpdate(prevProps, prevState) {
       console.log('[Persons.js] getSnapshotBeforeUpdate');

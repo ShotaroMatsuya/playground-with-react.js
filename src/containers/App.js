@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 // import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
@@ -17,7 +19,8 @@ class App extends Component {
     ],
     otherState: 'some other value',
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter:0
   }
   static getDerivedStateFromProps(props, state) {
     console.log('[App.js] getDerivedStateFromProps', props);
@@ -54,7 +57,17 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState( { persons: persons } );
+    // this.setState({
+    //    persons: persons,
+    //    changeCounter:this.state.changeCounter + 1
+    //    //synchronous関数内で直接stateを操作するのは避ける(最新のstateが渡っている保証がないため)
+    //   });
+    this.setState((prevState,props)=>{//callbackの引数には自動的に直前のstateが渡る
+      return{
+        persons:persons,
+        changeCounter:prevState.changeCounter + 1
+      };
+    });
   }
 
   deletePersonHandler = ( personIndex ) => {
@@ -86,7 +99,7 @@ class App extends Component {
 
 
     return  (
-      <div className={classes.App}>
+      <Aux>
         <button
           onClick={() => {
             this.setState({ showCockpit: false });
@@ -103,10 +116,10 @@ class App extends Component {
           />
         ) : null}
         {persons}
-      </div>
+        </Aux>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App;
+export default withClass(App, classes.App);//hoc関数でAppコンポーネントにクラスを追加
